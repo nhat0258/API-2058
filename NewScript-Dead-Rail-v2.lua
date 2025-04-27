@@ -1,5 +1,6 @@
-print("MR.N -- Developer")
-
+print("GUI By MR.N -- Developer")
+print("Teleport By RingTa.")
+print(" Your Mom Is Fat ")
 -- Dịch vụ cần thiết
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
