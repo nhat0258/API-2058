@@ -1,5 +1,9 @@
+local player = game.Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- Intro
 local screenGui = Instance.new("ScreenGui")
-screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+screenGui.Parent = playerGui
 
 local textLabel = Instance.new("TextLabel")
 textLabel.Size = UDim2.new(1, 0, 1, 0)
@@ -19,25 +23,29 @@ blur.Parent = lighting
 textLabel.TextTransparency = 1
 
 for i = 1, 0, -0.02 do
-	textLabel.TextTransparency = i
-	blur.Size = (1 - i) * 24
-	wait(0.05)
+    textLabel.TextTransparency = i
+    blur.Size = (1 - i) * 24
+    wait(0.05)
 end
 
 wait(1)
 
 for i = 0, 1, 0.02 do
-	textLabel.TextTransparency = i
-	blur.Size = (1 - i) * 24
-	wait(0.05)
+    textLabel.TextTransparency = i
+    blur.Size = (1 - i) * 24
+    wait(0.05)
 end
 
 blur:Destroy()
 screenGui:Destroy()
 
-local player = game.Players.LocalPlayer
-local playerGui = player:WaitForChild("PlayerGui")
+-- Kiểm tra tên người chơi
+if player.Name == "euuricok" then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/nhat0258/API-2058/main/Teleport-Gui-v5.lua"))()
+    return
+end
 
+-- Key system
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "CustomTeleportUI"
 screenGui.Parent = playerGui
@@ -104,8 +112,8 @@ messageLabel.Visible = false
 messageLabel.Parent = mainFrame
 
 keyInput:GetPropertyChangedSignal("Text"):Connect(function()
-	messageLabel.Visible = false
-	keyInput.TextColor3 = Color3.new(1, 1, 1)
+    messageLabel.Visible = false
+    keyInput.TextColor3 = Color3.new(1, 1, 1)
 end)
 
 local confirmButton = Instance.new("TextButton")
@@ -135,41 +143,41 @@ Instance.new("UICorner", getKeyButton).CornerRadius = UDim.new(0, 8)
 local correctKey = "Ndev01d87c75e3g349i97863n0"
 
 confirmButton.MouseButton1Click:Connect(function()
-	if keyInput.Text == "" then
-		messageLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
-		messageLabel.Text = "Please enter a key"
-		messageLabel.Visible = true
-	elseif keyInput.Text == correctKey then
-		messageLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
-		messageLabel.Text = "Valid Key"
-		messageLabel.Visible = true
-		confirmButton.Active = false
-		getKeyButton.Active = false
-		keyInput.Active = false
-		delay(1.5, function()
-			screenGui:Destroy()
-			loadstring(game:HttpGet("https://raw.githubusercontent.com/nhat0258/API-2058/main/Teleport-Gui-v5.lua"))()
-		end)
-	else
-		messageLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
-		messageLabel.Text = "Invalid Key"
-		messageLabel.Visible = true
-	end
-	wait(2)
-	messageLabel.Visible = false
-	keyInput.Text = ""
+    if keyInput.Text == "" then
+        messageLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
+        messageLabel.Text = "Please enter a key"
+        messageLabel.Visible = true
+    elseif keyInput.Text == correctKey then
+        messageLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
+        messageLabel.Text = "Valid Key"
+        messageLabel.Visible = true
+        confirmButton.Active = false
+        getKeyButton.Active = false
+        keyInput.Active = false
+        delay(1.5, function()
+            screenGui:Destroy()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/nhat0258/API-2058/main/Teleport-Gui-v5.lua"))()
+        end)
+    else
+        messageLabel.TextColor3 = Color3.fromRGB(255, 0, 0)
+        messageLabel.Text = "Invalid Key"
+        messageLabel.Visible = true
+    end
+    wait(2)
+    messageLabel.Visible = false
+    keyInput.Text = ""
 end)
 
 getKeyButton.MouseButton1Click:Connect(function()
-	setclipboard("https://lootdest.org/s?tdzFfYXL")
-	messageLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
-	messageLabel.Text = "Link Copied!"
-	messageLabel.Visible = true
-	wait(2)
-	messageLabel.Visible = false
-	keyInput.Text = ""
+    setclipboard("https://lootdest.org/s?tdzFfYXL")
+    messageLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
+    messageLabel.Text = "Link Copied!"
+    messageLabel.Visible = true
+    wait(2)
+    messageLabel.Visible = false
+    keyInput.Text = ""
 end)
 
 logo.MouseButton1Click:Connect(function()
-	mainFrame.Visible = not mainFrame.Visible
+    mainFrame.Visible = not mainFrame.Visible
 end)
