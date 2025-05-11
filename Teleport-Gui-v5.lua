@@ -3,9 +3,9 @@
 print("MR.N -- Devemenlopver")
 
 local player = game.Players.LocalPlayer
-local playerGui = player:WaitForChild("PlayerGui")
-local RunService = game:GetService("RunService")
-local UIS = game:GetService("UserInputService")
+local playerGui = player\:WaitForChild("PlayerGui")
+local RunService = game\:GetService("RunService")
+local UIS = game\:GetService("UserInputService")
 
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "CustomTeleportUI"
@@ -55,22 +55,22 @@ borderTabs.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 borderTabs.Parent = tabButtonsFrame
 
 local function createTabButton(name, position)
-    local button = Instance.new("TextButton")
-    button.Size = UDim2.new(0.5, -2, 1, -2)
-    button.Position = position
-    button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-    button.Text = name
-    button.TextColor3 = Color3.new(1, 1, 1)
-    button.Font = Enum.Font.Gotham
-    button.TextSize = 16
-    button.TextScaled = false
-    button.Parent = tabButtonsFrame
-    Instance.new("UICorner", button).CornerRadius = UDim.new(0, 6)
-    local border = Instance.new("UIStroke")
-    border.Color = Color3.new(1, 1, 1)
-    border.Thickness = 1.5
-    border.Parent = button
-    return button
+local button = Instance.new("TextButton")
+button.Size = UDim2.new(0.5, -2, 1, -2)
+button.Position = position
+button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+button.Text = name
+button.TextColor3 = Color3.new(1, 1, 1)
+button.Font = Enum.Font.Gotham
+button.TextSize = 16
+button.TextScaled = false
+button.Parent = tabButtonsFrame
+Instance.new("UICorner", button).CornerRadius = UDim.new(0, 6)
+local border = Instance.new("UIStroke")
+border.Color = Color3.new(1, 1, 1)
+border.Thickness = 1.5
+border.Parent = button
+return button
 end
 
 local projectTabButton = createTabButton("Project", UDim2.new(0, 1, 0, 1))
@@ -129,141 +129,147 @@ countdownLabel.Parent = projectTab
 Instance.new("UICorner", countdownLabel).CornerRadius = UDim.new(0, 8)
 
 local function getCharacter()
-    return player.Character or player.CharacterAdded:Wait()
+return player.Character or player.CharacterAdded\:Wait()
 end
 
 local function getClosestSeat()
-    local character = getCharacter()
-    local root = character:FindFirstChild("HumanoidRootPart")
-    if not root then return nil end
-    local closest, minDist = nil, math.huge
-    for _, seat in ipairs(workspace:GetDescendants()) do
-        if (seat:IsA("Seat") or seat:IsA("VehicleSeat")) and not seat.Occupant then
-            local dist = (seat.Position - root.Position).Magnitude
-            if dist < minDist then
-                minDist = dist
-                closest = seat
-            end
-        end
-    end
-    return closest
+local character = getCharacter()
+local root = character\:FindFirstChild("HumanoidRootPart")
+if not root then return nil end
+local closest, minDist = nil, math.huge
+for \_, seat in ipairs(workspace\:GetDescendants()) do
+if (seat\:IsA("Seat") or seat\:IsA("VehicleSeat")) and not seat.Occupant then
+local dist = (seat.Position - root.Position).Magnitude
+if dist < minDist then
+minDist = dist
+closest = seat
+end
+end
+end
+return closest
 end
 
 local function teleportToSeat(seat)
-    local character = getCharacter()
-    local root = character:FindFirstChild("HumanoidRootPart")
-    local humanoid = character:FindFirstChildWhichIsA("Humanoid")
-    if seat and root and humanoid then
-        character:SetPrimaryPartCFrame(CFrame.new(seat.Position + Vector3.new(0, 1.5, 0)))
-        seat:Sit(humanoid)
-    end
+local character = getCharacter()
+local root = character\:FindFirstChild("HumanoidRootPart")
+local humanoid = character\:FindFirstChildWhichIsA("Humanoid")
+if seat and root and humanoid then
+character\:SetPrimaryPartCFrame(CFrame.new(seat.Position + Vector3.new(0, 1.5, 0)))
+seat\:Sit(humanoid)
+end
 end
 
 local function createTeleportButton(index, position, tab)
-    local button = Instance.new("TextButton")
-    button.Size = tab == villageTab and UDim2.new(1, -10, 0, 35) or UDim2.new(1, -20, 0, 45)
-    button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-    button.TextColor3 = Color3.new(1, 1, 1)
-    button.Text = index
-    button.Font = Enum.Font.GothamBold
-    button.TextSize = 16
-    button.TextScaled = false
-    button.Parent = tab
-    Instance.new("UICorner", button).CornerRadius = UDim.new(0, 8)
+local button = Instance.new("TextButton")
+button.Size = tab == villageTab and UDim2.new(1, -10, 0, 35) or UDim2.new(1, -20, 0, 45)
+button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+button.TextColor3 = Color3.new(1, 1, 1)
+button.Text = index
+button.Font = Enum.Font.GothamBold
+button.TextSize = 16
+button.TextScaled = false
+button.Parent = tab
+Instance.new("UICorner", button).CornerRadius = UDim.new(0, 8)
 
-    button.MouseButton1Click:Connect(function()
-        local character = getCharacter()
-        local root = character:FindFirstChild("HumanoidRootPart")
-        if not root then
-            print("Không tìm thấy nhân vật!")
-            return
-        end
+```
+button.MouseButton1Click:Connect(function()
+    local character = getCharacter()
+    local root = character:FindFirstChild("HumanoidRootPart")
+    if not root then
+        print("Không tìm thấy nhân vật!")
+        return
+    end
 
-        local timeout = tonumber(customTimeoutInput.Text:match("Timeout%s*%([^)]*%)%s*:%s*([%d%.]+)")) or 3.5
+    local timeout = tonumber(customTimeoutInput.Text:match("Timeout%s*%([^)]*%)%s*:%s*([%d%.]+)")) or 3.5
 
-        local startTime = tick()
-        local initialDuration = 2
-        while tick() - startTime < initialDuration do
-            character:SetPrimaryPartCFrame(CFrame.new(position + Vector3.new(0, 3, 0)))
-            print("Đang dịch chuyển đến " .. index .. "...")
-            task.wait(0.1)
-        end
+    local startTime = tick()
+    local initialDuration = 2
+    while tick() - startTime < initialDuration do
+        character:SetPrimaryPartCFrame(CFrame.new(position + Vector3.new(0, 3, 0)))
+        print("Đang dịch chuyển đến " .. index .. "...")
+        task.wait(0.1)
+    end
 
-        local totalStartTime = tick()
-        local seated = false
+    local totalStartTime = tick()
+    local seated = false
 
-        while tick() - totalStartTime < timeout do
-            local remainingTime = math.max(0, timeout - (tick() - totalStartTime))
-            countdownLabel.Text = string.format("Thời gian còn lại: %.1f", remainingTime)
-            local seat = getClosestSeat()
-            if seat and not seat.Occupant then
-                teleportToSeat(seat)
-                if seat.Occupant then
-                    seated = true
-                    print("Đã ngồi vào ghế!")
-                    countdownLabel.Text = "Đã ngồi vào ghế!"
-                    break
-                end
-            end
-            character:SetPrimaryPartCFrame(CFrame.new(position + Vector3.new(0, 3, 0)))
-            task.wait(0.1)
-        end
-
-        if not seated then
-            print("Không tìm thấy ghế trống trong " .. timeout .. " giây!")
-            countdownLabel.Text = "Không tìm thấy ghế trống!"
-        end
-
-        task.wait(1)
-        countdownLabel.Text = "Thời gian còn lại: -"
-    end)
-end
-
--- Hàm tạo nút Sit Nearest Seat
-local function createSitNearestSeatButton(tab)
-    local button = Instance.new("TextButton")
-    button.Size = UDim2.new(1, -20, 0, 45)
-    button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-    button.TextColor3 = Color3.new(1, 1, 1)
-    button.Text = "Sit Nearest Seat"
-    button.Font = Enum.Font.GothamBold
-    button.TextSize = 16
-    button.TextScaled = false
-    button.Parent = tab
-    Instance.new("UICorner", button).CornerRadius = UDim.new(0, 8)
-
-    button.MouseButton1Click:Connect(function()
+    while tick() - totalStartTime < timeout do
+        local remainingTime = math.max(0, timeout - (tick() - totalStartTime))
+        countdownLabel.Text = string.format("Thời gian còn lại: %.1f", remainingTime)
         local seat = getClosestSeat()
-        if seat then
+        if seat and not seat.Occupant then
             teleportToSeat(seat)
             if seat.Occupant then
-                print("Đã ngồi vào ghế gần nhất!")
-                countdownLabel.Text = "Đã ngồi vào ghế gần nhất!"
-            else
-                print("Không thể ngồi vào ghế!")
-                countdownLabel.Text = "Không thể ngồi vào ghế!"
+                seated = true
+                print("Đã ngồi vào ghế!")
+                countdownLabel.Text = "Đã ngồi vào ghế!"
+                break
             end
-        else
-            print("Không tìm thấy ghế trống gần đây!")
-            countdownLabel.Text = "Không tìm thấy ghế trống!"
         end
-        task.wait(1)
-        countdownLabel.Text = "Thời gian còn lại: -"
-    end)
+        character:SetPrimaryPartCFrame(CFrame.new(position + Vector3.new(0, 3, 0)))
+        task.wait(0.1)
+    end
+
+    if not seated then
+        print("Không tìm thấy ghế trống trong " .. timeout .. " giây!")
+        countdownLabel.Text = "Không tìm thấy ghế trống!"
+    end
+
+    task.wait(1)
+    countdownLabel.Text = "Thời gian còn lại: -"
+end)
+```
+
+end
+
+\-- Hàm tạo nút Sit Nearest Seat
+local function createSitNearestSeatButton(tab)
+local button = Instance.new("TextButton")
+button.Size = UDim2.new(1, -20, 0, 45)
+button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+button.TextColor3 = Color3.new(1, 1, 1)
+button.Text = "Sit Nearest Seat"
+button.Font = Enum.Font.GothamBold
+button.TextSize = 16
+button.TextScaled = false
+button.Parent = tab
+Instance.new("UICorner", button).CornerRadius = UDim.new(0, 8)
+
+```
+button.MouseButton1Click:Connect(function()
+    local seat = getClosestSeat()
+    if seat then
+        teleportToSeat(seat)
+        if seat.Occupant then
+            print("Đã ngồi vào ghế gần nhất!")
+            countdownLabel.Text = "Đã ngồi vào ghế gần nhất!"
+        else
+            print("Không thể ngồi vào ghế!")
+            countdownLabel.Text = "Không thể ngồi vào ghế!"
+        end
+    else
+        print("Không tìm thấy ghế trống gần đây!")
+        countdownLabel.Text = "Không tìm thấy ghế trống!"
+    end
+    task.wait(1)
+    countdownLabel.Text = "Thời gian còn lại: -"
+end)
+```
+
 end
 
 local villagePositions = {
-    [1] = Vector3.new(-781.9, 43.8, 21918.8),
-    [2] = Vector3.new(-637.0, 38.8, 14085.6),
-    [3] = Vector3.new(-299.1, 38.7, 6452.0),
-    [4] = Vector3.new(-11.4, 38.2, -1815.9),
-    [5] = Vector3.new(-298.4, 40.8, 6427.9),
-    [6] = Vector3.new(-1259.8, 41.5, -1887.2),
-    [7] = Vector3.new(-945.2, 43.1, -41654.6)
+\[1] = Vector3.new(-781.9, 43.8, 21918.8),
+\[2] = Vector3.new(-637.0, 38.8, 14085.6),
+\[3] = Vector3.new(-299.1, 38.7, 6452.0),
+\[4] = Vector3.new(-11.4, 38.2, -1815.9),
+\[5] = Vector3.new(-298.4, 40.8, 6427.9),
+\[6] = Vector3.new(-1259.8, 41.5, -1887.2),
+\[7] = Vector3.new(-945.2, 43.1, -41654.6)
 }
 
 for i, pos in ipairs(villagePositions) do
-    createTeleportButton("Làng " .. i, pos, villageTab)
+createTeleportButton("Làng " .. i, pos, villageTab)
 end
 
 local positionInput = Instance.new("TextBox")
@@ -305,83 +311,86 @@ createTeleportButton("Teleport To End", Vector3.new(-424.4, 28.1, -49040.7), pro
 createTeleportButton("Teleport To Castle", Vector3.new(181.0, 19.2, -9204.2), projectTab)
 createTeleportButton("Teleport To Starting Point", Vector3.new(59.7, 12.0, 29876.9), projectTab)
 
--- Thêm nút Sit Nearest Seat vào projectTab
+\-- Thêm nút Sit Nearest Seat vào projectTab
 createSitNearestSeatButton(projectTab)
 
-saveButton.MouseButton1Click:Connect(function()
-    local character = getCharacter()
-    local root = character and character:FindFirstChild("HumanoidRootPart")
-    if root then
-        savedPosition = root.Position
-        positionInput.Text = string.format("Tọa độ: %.1f, %.1f, %.1f", savedPosition.X, savedPosition.Y, savedPosition.Z)
-    else
-        positionInput.Text = "Không tìm thấy nhân vật!"
-        task.wait(1)
-        positionInput.Text = "Tọa độ lưu: Chưa có"
-    end
+saveButton.MouseButton1Click\:Connect(function()
+local character = getCharacter()
+local root = character and character\:FindFirstChild("HumanoidRootPart")
+if root then
+savedPosition = root.Position
+positionInput.Text = string.format("Tọa độ: %.1f, %.1f, %.1f", savedPosition.X, savedPosition.Y, savedPosition.Z)
+else
+positionInput.Text = "Không tìm thấy nhân vật!"
+task.wait(1)
+positionInput.Text = "Tọa độ lưu: Chưa có"
+end
 end)
 
-teleportToSavedButton.MouseButton1Click:Connect(function()
-    local character = getCharacter()
-    local root = character:FindFirstChild("HumanoidRootPart")
-    if not root then
-        positionInput.Text = "Không tìm thấy nhân vật!"
-        task.wait(1)
-        positionInput.Text = savedPosition and string.format("Tọa độ: %.1f, %.1f, %.1f", savedPosition.X, savedPosition.Y, savedPosition.Z) or "Tọa độ lưu: Chưa có"
-        return
-    end
+teleportToSavedButton.MouseButton1Click\:Connect(function()
+local character = getCharacter()
+local root = character\:FindFirstChild("HumanoidRootPart")
+if not root then
+positionInput.Text = "Không tìm thấy nhân vật!"
+task.wait(1)
+positionInput.Text = savedPosition and string.format("Tọa độ: %.1f, %.1f, %.1f", savedPosition.X, savedPosition.Y, savedPosition.Z) or "Tọa độ lưu: Chưa có"
+return
+end
 
-    local x, y, z = positionInput.Text:match("([%d%-%.]+)%s*,%s*([%d%-%.]+)%s*,%s*([%d%-%.]+)")
-    if x and y and z then
-        savedPosition = Vector3.new(tonumber(x), tonumber(y), tonumber(z))
-    elseif not savedPosition then
-        positionInput.Text = "Chưa có tọa độ lưu!"
-        task.wait(1)
-        positionInput.Text = "Tọa độ lưu: Chưa có"
-        return
-    end
-
-    local timeout = tonumber(customTimeoutInput.Text:match("Timeout%s*%([^)]*%)%s*:%s*([%d%.]+)")) or 3.5
-
-    local startTime = tick()
-    local initialDuration = 2
-    while tick() - startTime < initialDuration do
-        character:SetPrimaryPartCFrame(CFrame.new(savedPosition + Vector3.new(0, 3, 0)))
-        print("Đang dịch chuyển đến tọa độ đã lưu...")
-        task.wait(0.1)
-    end
-
-    local totalStartTime = tick()
-    local seated = false
-
-    while tick() - totalStartTime < timeout do
-        local remainingTime = math.max(0, timeout - (tick() - totalStartTime))
-        countdownLabel.Text = string.format("Thời gian còn lại: %.1f", remainingTime)
-        local seat = getClosestSeat()
-        if seat and not seat.Occupant then
-            teleportToSeat(seat)
-            if seat.Occupant then
-                seated = true
-                print("Đã ngồi vào ghế!")
-                positionInput.Text = "Đã ngồi vào ghế gần tọa độ!"
-                break
-            end
-        end
-        character:SetPrimaryPartCFrame(CFrame.new(savedPosition + Vector3.new(0, 3, 0)))
-        task.wait(0.1)
-    end
-
-    if not seated then
-        print("Không tìm thấy ghế trống trong " .. timeout .. " giây!")
-        positionInput.Text = "Không tìm thấy ghế trống!"
-    end
-
+```
+local x, y, z = positionInput.Text:match("([%d%-%.]+)%s*,%s*([%d%-%.]+)%s*,%s*([%d%-%.]+)")
+if x and y and z then
+    savedPosition = Vector3.new(tonumber(x), tonumber(y), tonumber(z))
+elseif not savedPosition then
+    positionInput.Text = "Chưa có tọa độ lưu!"
     task.wait(1)
-    positionInput.Text = savedPosition and string.format("Tọa độ: %.1f, %.1f, %.1f", savedPosition.X, savedPosition.Y, savedPosition.Z) or "Tọa độ lưu: Chưa có"
-    countdownLabel.Text = "Thời gian còn lại: -"
+    positionInput.Text = "Tọa độ lưu: Chưa có"
+    return
+end
+
+local timeout = tonumber(customTimeoutInput.Text:match("Timeout%s*%([^)]*%)%s*:%s*([%d%.]+)")) or 3.5
+
+local startTime = tick()
+local initialDuration = 2
+while tick() - startTime < initialDuration do
+    character:SetPrimaryPartCFrame(CFrame.new(savedPosition + Vector3.new(0, 3, 0)))
+    print("Đang dịch chuyển đến tọa độ đã lưu...")
+    task.wait(0.1)
+end
+
+local totalStartTime = tick()
+local seated = false
+
+while tick() - totalStartTime < timeout do
+    local remainingTime = math.max(0, timeout - (tick() - totalStartTime))
+    countdownLabel.Text = string.format("Thời gian còn lại: %.1f", remainingTime)
+    local seat = getClosestSeat()
+    if seat and not seat.Occupant then
+        teleportToSeat(seat)
+        if seat.Occupant then
+            seated = true
+            print("Đã ngồi vào ghế!")
+            positionInput.Text = "Đã ngồi vào ghế gần tọa độ!"
+            break
+        end
+    end
+    character:SetPrimaryPartCFrame(CFrame.new(savedPosition + Vector3.new(0, 3, 0)))
+    task.wait(0.1)
+end
+
+if not seated then
+    print("Không tìm thấy ghế trống trong " .. timeout .. " giây!")
+    positionInput.Text = "Không tìm thấy ghế trống!"
+end
+
+task.wait(1)
+positionInput.Text = savedPosition and string.format("Tọa độ: %.1f, %.1f, %.1f", savedPosition.X, savedPosition.Y, savedPosition.Z) or "Tọa độ lưu: Chưa có"
+countdownLabel.Text = "Thời gian còn lại: -"
+```
+
 end)
 
--- Thêm nút kéo thả ở góc phải trên cùng
+\-- Thêm nút kéo thả ở góc phải trên cùng
 local dragButton = Instance.new("TextButton")
 dragButton.Size = UDim2.new(0, 50, 0, 50)
 dragButton.Position = UDim2.new(1, -70, 0, 0)
@@ -400,1001 +409,145 @@ borderDrag.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
 borderDrag.Parent = dragButton
 dragButton.Draggable = true
 
--- Sự kiện cho nút kéo thả để chạy script tạo party
-dragButton.MouseButton1Click:Connect(function()
-    local Players = game:GetService("Players")
-    local localPlayer = Players.LocalPlayer
-    local playerGui = localPlayer:WaitForChild("PlayerGui")
+\-- Sự kiện cho nút kéo thả để chạy script tạo party
+dragButton.MouseButton1Click\:Connect(function()
+local Players = game\:GetService("Players")
+local localPlayer = Players.LocalPlayer
+local playerGui = localPlayer\:WaitForChild("PlayerGui")
 
-    -- Đảm bảo nhân vật và HumanoidRootPart đã tải
-    local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
-    local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+```
+-- Đảm bảo nhân vật và HumanoidRootPart đã tải
+local character = localPlayer.Character or localPlayer.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
 
-    -- Các vị trí có thể dùng để tạo party
-    local partyPositions = {
-        Vector3.new(44.5, 7.8, 100.8),
-        Vector3.new(44.5, 7.6, 115.8),
-        Vector3.new(44.5, 7.6, 130.8),
-        Vector3.new(44.5, 7.6, 145.8),
-    }
+-- Các vị trí có thể dùng để tạo party
+local partyPositions = {
+    Vector3.new(44.5, 7.8, 100.8),
+    Vector3.new(44.5, 7.6, 115.8),
+    Vector3.new(44.5, 7.6, 130.8),
+    Vector3.new(44.5, 7.6, 145.8),
+}
 
-    local safeDistance = 7 -- khoảng cách tối thiểu từ người khác
-    local maxWaitTime = 5 -- thời gian tối đa chờ giao diện xuất hiện
+local safeDistance = 7 -- khoảng cách tối thiểu từ người khác
+local maxWaitTime = 5 -- thời gian tối đa chờ giao diện xuất hiện
 
-    -- Kiểm tra có người khác gần vị trí không
-    local function isOccupied(pos)
-        for _, player in ipairs(Players:GetPlayers()) do
-            if player ~= localPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-                local dist = (player.Character.HumanoidRootPart.Position - pos).Magnitude
-                if dist < safeDistance then
-                    return true
-                end
+-- Kiểm tra có người khác gần vị trí không
+local function isOccupied(pos)
+    for _, player in ipairs(Players:GetPlayers()) do
+        if player ~= localPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            local dist = (player.Character.HumanoidRootPart.Position - pos).Magnitude
+            if dist < safeDistance then
+                return true
             end
         end
-        return false
     end
+    return false
+end
 
-    -- Tìm vị trí trống
-    local function findSafePartyPosition()
-        for _, pos in ipairs(partyPositions) do
-            if not isOccupied(pos) then
-                return pos
-            end
+-- Tìm vị trí trống
+local function findSafePartyPosition()
+    for _, pos in ipairs(partyPositions) do
+        if not isOccupied(pos) then
+            return pos
         end
-        return nil
     end
+    return nil
+end
 
-    -- Tìm giao diện "Tạo Nhóm" và nút có chứa chữ "Tạo"
-    local function findCreateButton()
-        local startTime = tick()
-        while (tick() - startTime) < maxWaitTime do
-            for _, gui in ipairs(playerGui:GetDescendants()) do
-                if gui:IsA("TextLabel") and gui.Text == "Tạo Nhóm" then
-                    for _, child in ipairs(gui.Parent:GetDescendants()) do
-                        if child:IsA("TextButton") and child.Text and string.find(child.Text:lower(), "tạo") then
-                            return child
-                        end
-                    end
-                end
-            end
-            task.wait(0.1)
-        end
-        return nil
-    end
-
-    -- Chọn chế độ (Bình thường hoặc Khó) dựa trên tên nút
-    local function selectMode(mode)
-        local startTime = tick()
-        while (tick() - startTime) < maxWaitTime do
-            for _, gui in ipairs(playerGui:GetDescendants()) do
-                if gui:IsA("TextLabel") and gui.Text == "Tạo Nhóm" then
-                    for _, child in ipairs(gui.Parent:GetDescendants()) do
-                        if child:IsA("TextButton") and child.Text == mode then
-                            pcall(function()
-                                child:Activate()
-                                print("Đã chọn chế độ:", mode)
-                            end)
-                            return true
-                        end
-                    end
-                end
-            end
-            task.wait(0.1)
-        end
-        warn("Không tìm thấy nút chế độ:", mode)
-        return false
-    end
-
-    -- Thực hiện toàn bộ quá trình tạo party
-    local function autoCreateParty()
-        local pos = findSafePartyPosition()
-        if not pos then
-            warn("Không có vị trí party trống.")
-            return
-        end
-
-        humanoidRootPart.CFrame = CFrame.new(pos + Vector3.new(0, 3, 0))
-        print("Đã di chuyển đến vị trí:", pos)
-
-        task.wait(1)
-
-        if not selectMode("Bình thường") then
-            warn("Không thể chọn chế độ Bình thường.")
-            return
-        end
-
-        local createButton = findCreateButton()
-        if createButton then
-            pcall(function()
-                createButton:Activate()
-                print("Đã bấm nút Tạo.")
-            end)
-        else
-            warn("Không tìm thấy nút Tạo sau", maxWaitTime, "giây.")
-            return
-        end
-
-        task.wait(1)
+-- Tìm giao diện "Tạo Nhóm" và nút có chứa chữ "Tạo"
+local function findCreateButton()
+    local startTime = tick()
+    while (tick() - startTime) < maxWaitTime do
         for _, gui in ipairs(playerGui:GetDescendants()) do
-            if gui:IsA("TextLabel") and string.find(gui.Text, "Trốn thoát sang Mexico!") then
-                print("Party đã được tạo thành công!")
-                break
-            end
-        end
-    end
-
-    autoCreateParty()
-end)
-
-logo.MouseButton1Click:Connect(function()
-    mainFrame.Visible = not mainFrame.Visible
-end)
-
-projectTabButton.MouseButton1Click:Connect(function()
-    projectTab.Visible = true
-    villageTab.Visible = false
-end)
-
-villageTabButton.MouseButton1Click:Connect(function()
-    projectTab.Visible = false
-    villageTab.Visible = true
-end)
-            updateDrawings()
-            lastUpdate = lastUpdate + dt
-            if lastUpdate >= UPDATE_INTERVAL then
-                updateNPCs()
-                lastUpdate = 0
-            end
-            if isAiming then
-                local target = getTarget()
-                if target then
-                    local predictedPosition = predictPos(target)
-                    if predictedPosition then
-                        aim(predictedPosition)
+            if gui:IsA("TextLabel") and gui.Text == "Tạo Nhóm" then
+                for _, child in ipairs(gui.Parent:GetDescendants()) do
+                    if child:IsA("TextButton") and child.Text and string.find(child.Text:lower(), "tạo") then
+                        return child
                     end
                 end
             end
-        end)
-    else
-        if aimbotConnection then
-            aimbotConnection:Disconnect()
-            aimbotConnection = nil
         end
+        task.wait(0.1)
     end
+    return nil
 end
 
--- Hàm Noclip với Anti-Avoid
-local noclipConnection
-local antiAvoidConnection
-local function toggleNoclip(noclipButton, statusLabel, isVietnamese)
-    isNoClip = not isNoClip
-    noclipButton.Text = isVietnamese and (isNoClip and "Tắt Xuyên Tường" or "Bật Xuyên Tường") or (isNoClip and "Tắt Noclip" or "Bật Noclip")
-    statusLabel.Text = isVietnamese and (isNoClip and "Xuyên tường đã bật!" or "Xuyên tường đã tắt!") or (isNoClip and "Noclip enabled!" or "Noclip disabled!")
-    statusLabel.TextColor3 = isNoClip and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 255, 255)
-    
-    if isNoClip then
-        if LocalPlayer.Character then
-            originalCollideStates = {}
-            for _, part in ipairs(LocalPlayer.Character:GetDescendants()) do
-                if part:IsA("BasePart") then
-                    originalCollideStates[part] = part.CanCollide
-                    part.CanCollide = false
-                end
-            end
-            local humanoid = LocalPlayer.Character:FindFirstChild("Humanoid")
-            if humanoid then
-                humanoid.PlatformStand = false
-                humanoid.Jump = false
-            end
-        end
-        noclipConnection = RunService.Stepped:Connect(function()
-            if LocalPlayer.Character then
-                for _, part in ipairs(LocalPlayer.Character:GetDescendants()) do
-                    if part:IsA("BasePart") then
-                        part.CanCollide = false
+-- Chọn chế độ (Bình thường hoặc Khó) dựa trên tên nút
+local function selectMode(mode)
+    local startTime = tick()
+    while (tick() - startTime) < maxWaitTime do
+        for _, gui in ipairs(playerGui:GetDescendants()) do
+            if gui:IsA("TextLabel") and gui.Text == "Tạo Nhóm" then
+                for _, child in ipairs(gui.Parent:GetDescendants()) do
+                    if child:IsA("TextButton") and child.Text == mode then
+                        pcall(function()
+                            child:Activate()
+                            print("Đã chọn chế độ:", mode)
+                        end)
+                        return true
                     end
                 end
             end
-        end)
-        -- Anti-Avoid: Giữ nhân vật đứng thẳng
-        antiAvoidConnection = RunService.Stepped:Connect(function()
-            if LocalPlayer.Character then
-                local hrp = LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-                if hrp then
-                    -- Giữ vị trí hiện tại, chỉ căn chỉnh trục Y
-                    local currentPos = hrp.Position
-                    local upVector = Vector3.new(0, 1, 0)
-                    local forwardVector = hrp.CFrame.LookVector
-                    forwardVector = Vector3.new(forwardVector.X, 0, forwardVector.Z).Unit -- Loại bỏ thành phần Y
-                    if forwardVector.Magnitude == 0 then
-                        forwardVector = Vector3.new(0, 0, 1) -- Mặc định nếu không có hướng
-                    end
-                    local rightVector = forwardVector:Cross(upVector)
-                    hrp.CFrame = CFrame.new(currentPos, currentPos + forwardVector) * CFrame.fromMatrix(Vector3.new(0, 0, 0), rightVector, upVector)
-                end
-            end
-        end)
-    else
-        if noclipConnection then
-            noclipConnection:Disconnect()
-            noclipConnection = nil
         end
-        if antiAvoidConnection then
-            antiAvoidConnection:Disconnect()
-            antiAvoidConnection = nil
-        end
-        if LocalPlayer.Character then
-            for part, canCollide in pairs(originalCollideStates) do
-                if part:IsDescendantOf(LocalPlayer.Character) then
-                    part.CanCollide = canCollide
-                end
-            end
-            originalCollideStates = {}
-            local hrp = LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-            local humanoid = LocalPlayer.Character:FindFirstChild("Humanoid")
-            if hrp then
-                hrp.Velocity = Vector3.new(0, 0, 0)
-                hrp.CFrame = hrp.CFrame + Vector3.new(0, 1, 0)
-            end
-            if humanoid then
-                humanoid.PlatformStand = false
-                humanoid.Jump = false
-                humanoid:ChangeState(Enum.HumanoidStateType.Running)
-            end
-        end
+        task.wait(0.1)
     end
+    warn("Không tìm thấy nút chế độ:", mode)
+    return false
 end
 
--- Hàm Third Person
-local function toggleThirdPerson(thirdPersonButton, statusLabel, isVietnamese)
-    isThirdPerson = not isThirdPerson
-    thirdPersonButton.Text = isVietnamese and (isThirdPerson and "Tắt Góc Nhìn Thứ Ba" or "Bật Góc Nhìn Thứ Ba") or (isThirdPerson and "Tắt Third Person" or "Bật Third Person")
-    statusLabel.Text = isVietnamese and (isThirdPerson and "Góc nhìn thứ ba đã bật!" or "Góc nhìn thứ ba đã tắt!") or (isThirdPerson and "Third person enabled!" or "Third person disabled!")
-    statusLabel.TextColor3 = isThirdPerson and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 255, 255)
-    
-    if isThirdPerson then
-        LocalPlayer.CameraMaxZoomDistance = 10
-        Camera.CameraType = Enum.CameraType.Follow
-    else
-        LocalPlayer.CameraMaxZoomDistance = originalCameraMaxZoomDistance
-        Camera.CameraType = originalCameraType
-        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
-            Camera.CameraSubject = LocalPlayer.Character.Humanoid
-        end
-    end
-end
-
--- Hàm ESP
-local function CreateESP(object, color, partName)
-    local part = object:FindFirstChild(partName) or object.PrimaryPart
-    if not object or not part then return end
-
-    if ESPHandles[object] then return end
-
-    local highlight = Instance.new("Highlight")
-    highlight.Name = "ESP_Highlight"
-    highlight.Adornee = object
-    highlight.FillColor = color
-    highlight.OutlineColor = color
-    highlight.Parent = object
-
-    local billboard = Instance.new("BillboardGui")
-    billboard.Name = "ESP_Billboard"
-    billboard.Adornee = part
-    billboard.Size = UDim2.new(0, 200, 0, 50)
-    billboard.StudsOffset = Vector3.new(0, 5, 0)
-    billboard.AlwaysOnTop = true
-    billboard.Parent = object
-
-    local textLabel = Instance.new("TextLabel")
-    textLabel.Size = UDim2.new(1, 0, 1, 0)
-    textLabel.TextColor3 = color
-    textLabel.BackgroundTransparency = 1
-    textLabel.TextSize = 7
-    textLabel.Parent = billboard
-
-    ESPHandles[object] = {Highlight = highlight, Billboard = billboard, TextLabel = textLabel}
-end
-
-local function ClearESP()
-    for obj, handles in pairs(ESPHandles) do
-        if handles.Highlight then handles.Highlight:Destroy() end
-        if handles.Billboard then handles.Billboard:Destroy() end
-    end
-    ESPHandles = {}
-end
-
-local espConnection
-local function toggleESPMobs(espMobsButton, statusLabel, isVietnamese)
-    isESPEnabledMobs = not isESPEnabledMobs
-    espMobsButton.Text = isVietnamese and (isESPEnabledMobs and "Tắt ESP Quái" or "Bật ESP Quái") or (isESPEnabledMobs and "Tắt ESP Mobs" or "Bật ESP Mobs")
-    statusLabel.Text = isVietnamese and (isESPEnabledMobs and "ESP quái đã bật!" or "ESP quái đã tắt!") or (isESPEnabledMobs and "ESP mobs enabled!" or "ESP mobs disabled!")
-    statusLabel.TextColor3 = isESPEnabledMobs and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 255, 255)
-    
-    if not isESPEnabledMobs and not isESPEnabledItems then
-        ClearESP()
-    end
-end
-
-local function toggleESPItems(espItemsButton, statusLabel, isVietnamese)
-    isESPEnabledItems = not isESPEnabledItems
-    espItemsButton.Text = isVietnamese and (isESPEnabledItems and "Tắt ESP Vật Phẩm" or "Bật ESP Vật Phẩm") or (isESPEnabledItems and "Tắt ESP Items" or "Bật ESP Items")
-    statusLabel.Text = isVietnamese and (isESPEnabledItems and "ESP vật phẩm đã bật!" or "ESP vật phẩm đã tắt!") or (isESPEnabledItems and "ESP items enabled!" or "ESP items disabled!")
-    statusLabel.TextColor3 = isESPEnabledItems and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 255, 255)
-    
-    if not isESPEnabledMobs and not isESPEnabledItems then
-        ClearESP()
-    end
-end
-
-local function updateESP()
-    if not isESPEnabledMobs and not isESPEnabledItems then
-        ClearESP()
+-- Thực hiện toàn bộ quá trình tạo party
+local function autoCreateParty()
+    local pos = findSafePartyPosition()
+    if not pos then
+        warn("Không có vị trí party trống.")
         return
     end
 
-    local character = LocalPlayer.Character
-    if not character then return end
-    local rootPart = character:FindFirstChild("HumanoidRootPart")
-    if not rootPart then return end
-    local playerPos = rootPart.Position
+    humanoidRootPart.CFrame = CFrame.new(pos + Vector3.new(0, 3, 0))
+    print("Đã di chuyển đến vị trí:", pos)
 
-    if isESPEnabledMobs then
-        for _, npc in ipairs(validNPCs) do
-            local npcPos = npc:FindFirstChild("HumanoidRootPart") and npc.HumanoidRootPart.Position
-            if npcPos and (npcPos - playerPos).Magnitude <= MAX_ESP_DISTANCE then
-                if not ESPHandles[npc] then
-                    CreateESP(npc, Color3.fromRGB(255, 0, 0), "HumanoidRootPart")
-                end
-                local handles = ESPHandles[npc]
-                if handles and handles.TextLabel then
-                    local distance = (playerPos - npcPos).Magnitude
-                    handles.TextLabel.Text = npc.Name .. "\n" .. math.floor(distance) .. " studs"
-                end
-            elseif ESPHandles[npc] then
-                ESPHandles[npc].Highlight:Destroy()
-                ESPHandles[npc].Billboard:Destroy()
-                ESPHandles[npc] = nil
-            end
-        end
+    task.wait(1)
+
+    if not selectMode("Bình thường") then
+        warn("Không thể chọn chế độ Bình thường.")
+        return
     end
 
-    if isESPEnabledItems then
-        local runtimeItems = workspace:FindFirstChild("RuntimeItems")
-        if runtimeItems then
-            for _, item in ipairs(runtimeItems:GetDescendants()) do
-                if item:IsA("Model") and item.PrimaryPart then
-                    local itemPos = item.PrimaryPart.Position
-                    if (itemPos - playerPos).Magnitude <= MAX_ESP_DISTANCE then
-                        if not ESPHandles[item] then
-                            CreateESP(item, Color3.fromRGB(0, 0, 255), "PrimaryPart")
-                        end
-                        local handles = ESPHandles[item]
-                        if handles and handles.TextLabel then
-                            local distance = (playerPos - itemPos).Magnitude
-                            handles.TextLabel.Text = item.Name .. "\n" .. math.floor(distance) .. " studs"
-                        end
-                    elseif ESPHandles[item] then
-                        ESPHandles[item].Highlight:Destroy()
-                        ESPHandles[item].Billboard:Destroy()
-                        ESPHandles[item] = nil
-                    end
-                end
-            end
+    local createButton = findCreateButton()
+    if createButton then
+        pcall(function()
+            createButton:Activate()
+            print("Đã bấm nút Tạo.")
+        end)
+    else
+        warn("Không tìm thấy nút Tạo sau", maxWaitTime, "giây.")
+        return
+    end
+
+    task.wait(1)
+    for _, gui in ipairs(playerGui:GetDescendants()) do
+        if gui:IsA("TextLabel") and string.find(gui.Text, "Trốn thoát sang Mexico!") then
+            print("Party đã được tạo thành công!")
+            break
         end
     end
 end
 
--- Tạo UI
-local function createUI()
-    local isVietnamese = (getPlayerCountry() == "VN")
+autoCreateParty()
+```
 
-    local screenGui = Instance.new("ScreenGui")
-    screenGui.Name = "TrainControlUI"
-    screenGui.Parent = LocalPlayer.PlayerGui
-    screenGui.ResetOnSpawn = false
-    screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-    screenGui.DisplayOrder = 1000000
+end)
 
-    local frame = Instance.new("Frame")
-    frame.Size = UDim2.new(0, 200, 0, 430)
-    frame.Position = UDim2.new(0.5, -100, 0.5, -215)
-    frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    frame.BorderSizePixel = 0
-    frame.Visible = false
-    frame.ZIndex = 1000000
-    frame.Parent = screenGui
+logo.MouseButton1Click\:Connect(function()
+mainFrame.Visible = not mainFrame.Visible
+end)
 
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0, 10)
-    corner.Parent = frame
+projectTabButton.MouseButton1Click\:Connect(function()
+projectTab.Visible = true
+villageTab.Visible = false
+end)
 
-    local tab1Content = Instance.new("Frame")
-    tab1Content.Size = UDim2.new(1, 0, 1, -100)
-    tab1Content.Position = UDim2.new(0, 0, 0, 0)
-    tab1Content.BackgroundTransparency = 1
-    tab1Content.ZIndex = 1000000
-    tab1Content.Parent = frame
-    tab1Content.Visible = true
-
-    local tab2Content = Instance.new("Frame")
-    tab2Content.Size = UDim2.new(1, 0, 1, -100)
-    tab2Content.Position = UDim2.new(0, 0, 0, 0)
-    tab2Content.BackgroundTransparency = 1
-    tab2Content.ZIndex = 1000000
-    tab2Content.Parent = frame
-    tab2Content.Visible = false
-
-    local tab3Content = Instance.new("ScrollingFrame")
-    tab3Content.Size = UDim2.new(1, 0, 1, -100)
-    tab3Content.Position = UDim2.new(0, 0, 0, 0)
-    tab3Content.BackgroundTransparency = 1
-    tab3Content.ZIndex = 1000000
-    tab3Content.CanvasSize = UDim2.new(0, 0, 0, 360)
-    tab3Content.ScrollBarThickness = 5
-    tab3Content.CanvasPosition = Vector2.new(0, 0)
-    tab3Content.Parent = frame
-    tab3Content.Visible = false
-
-    local tab3ListLayout = Instance.new("UIListLayout")
-    tab3ListLayout.SortOrder = Enum.SortOrder.LayoutOrder
-    tab3ListLayout.Padding = UDim.new(0, 10)
-    tab3ListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-    tab3ListLayout.Parent = tab3Content
-
-    local tab4Content = Instance.new("Frame")
-    tab4Content.Size = UDim2.new(1, 0, 1, -100)
-    tab4Content.Position = UDim2.new(0, 0, 0, 0)
-    tab4Content.BackgroundTransparency = 1
-    tab4Content.ZIndex = 1000000
-    tab4Content.Parent = frame
-    tab4Content.Visible = false
-
-    local tab1Button = Instance.new("TextButton")
-    tab1Button.Size = UDim2.new(0, 47.5, 0, 30)
-    tab1Button.Position = UDim2.new(0, 5, 0, 310)
-    tab1Button.BackgroundColor3 = Color3.fromRGB(0, 120, 215)
-    tab1Button.Text = isVietnamese and "Công Trình" or "Projects"
-    tab1Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    tab1Button.TextScaled = true
-    tab1Button.ZIndex = 1000001
-    tab1Button.BorderSizePixel = 2
-    tab1Button.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    tab1Button.Parent = frame
-    local tab1Corner = Instance.new("UICorner")
-    tab1Corner.CornerRadius = UDim.new(0, 8)
-    tab1Corner.Parent = tab1Button
-
-    local tab2Button = Instance.new("TextButton")
-    tab2Button.Size = UDim2.new(0, 47.5, 0, 30)
-    tab2Button.Position = UDim2.new(0, 52.5, 0, 310)
-    tab2Button.BackgroundColor3 = Color3.fromRGB(200, 200, 50)
-    tab2Button.Text = isVietnamese and "Khác" or "Other"
-    tab2Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    tab2Button.TextScaled = true
-    tab2Button.ZIndex = 1000001
-    tab2Button.BorderSizePixel = 0
-    tab2Button.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    tab2Button.Parent = frame
-    local tab2Corner = Instance.new("UICorner")
-    tab2Corner.CornerRadius = UDim.new(0, 8)
-    tab2Corner.Parent = tab2Button
-
-    local tab3Button = Instance.new("TextButton")
-    tab3Button.Size = UDim2.new(0, 47.5, 0, 30)
-    tab3Button.Position = UDim2.new(0, 100, 0, 310)
-    tab3Button.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
-    tab3Button.Text = isVietnamese and "Công Cụ" or "Tool"
-    tab3Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    tab3Button.TextScaled = true
-    tab3Button.ZIndex = 1000001
-    tab3Button.BorderSizePixel = 0
-    tab3Button.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    tab3Button.Parent = frame
-    local tab3Corner = Instance.new("UICorner")
-    tab3Corner.CornerRadius = UDim.new(0, 8)
-    tab3Corner.Parent = tab3Button
-
-    local tab4Button = Instance.new("TextButton")
-    tab4Button.Size = UDim2.new(0, 47.5, 0, 30)
-    tab4Button.Position = UDim2.new(0, 147.5, 0, 310)
-    tab4Button.BackgroundColor3 = Color3.fromRGB(50, 200, 50)
-    tab4Button.Text = isVietnamese and "Lớp Đặc Biệt" or "Special Class"
-    tab4Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    tab4Button.TextScaled = true
-    tab4Button.ZIndex = 1000001
-    tab4Button.BorderSizePixel = 0
-    tab4Button.BorderColor3 = Color3.fromRGB(0, 0, 0)
-    tab4Button.Parent = frame
-    local tab4Corner = Instance.new("UICorner")
-    tab4Corner.CornerRadius = UDim.new(0, 8)
-    tab4Corner.Parent = tab4Button
-
-    local sitButton = Instance.new("TextButton")
-    sitButton.Size = UDim2.new(0, 180, 0, 50)
-    sitButton.Position = UDim2.new(0.5, -90, 0, 10)
-    sitButton.BackgroundColor3 = Color3.fromRGB(0, 120, 215)
-    sitButton.Text = isVietnamese and "Ngồi vào ghế điều khiển" or "Sit in Conductor Seat"
-    sitButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    sitButton.TextScaled = true
-    sitButton.ZIndex = 1000001
-    sitButton.Parent = tab1Content
-    local buttonCorner = Instance.new("UICorner")
-    buttonCorner.CornerRadius = UDim.new(0, 8)
-    buttonCorner.Parent = sitButton
-
-    local castleButton = Instance.new("TextButton")
-    castleButton.Size = UDim2.new(0, 180, 0, 50)
-    castleButton.Position = UDim2.new(0.5, -90, 0, 70)
-    castleButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
-    castleButton.Text = isVietnamese and "Dịch Chuyển Đến Lâu Đài" or "Teleport to Castle"
-    castleButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    castleButton.TextScaled = true
-    castleButton.ZIndex = 1000001
-    castleButton.Parent = tab1Content
-    local castleButtonCorner = Instance.new("UICorner")
-    castleButtonCorner.CornerRadius = UDim.new(0, 8)
-    castleButtonCorner.Parent = castleButton
-
-    local teslaButton = Instance.new("TextButton")
-    teslaButton.Size = UDim2.new(0, 180, 0, 50)
-    teslaButton.Position = UDim2.new(0.5, -90, 0, 130)
-    teslaButton.BackgroundColor3 = Color3.fromRGB(50, 200, 50)
-    teslaButton.Text = isVietnamese and "Dịch Chuyển Đến Tesla Lab" or "Teleport to Tesla Lab"
-    teslaButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    teslaButton.TextScaled = true
-    teslaButton.ZIndex = 1000001
-    teslaButton.Parent = tab1Content
-    local teslaButtonCorner = Instance.new("UICorner")
-    teslaButtonCorner.CornerRadius = UDim.new(0, 8)
-    teslaButtonCorner.Parent = teslaButton
-
-    local fortButton = Instance.new("TextButton")
-    fortButton.Size = UDim2.new(0, 180, 0, 50)
-    fortButton.Position = UDim2.new(0.5, -90, 0, 190)
-    fortButton.BackgroundColor3 = Color3.fromRGB(200, 200, 50)
-    fortButton.Text = isVietnamese and "Dịch Chuyển Đến Fort" or "Teleport to Fort"
-    fortButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    fortButton.TextScaled = true
-    fortButton.ZIndex = 1000001
-    fortButton.Parent = tab1Content
-    local fortButtonCorner = Instance.new("UICorner")
-    fortButtonCorner.CornerRadius = UDim.new(0, 8)
-    fortButtonCorner.Parent = fortButton
-
-    local sterlingButton = Instance.new("TextButton")
-    sterlingButton.Size = UDim2.new(0, 180, 0, 50)
-    sterlingButton.Position = UDim2.new(0.5, -90, 0, 250)
-    sterlingButton.BackgroundColor3 = Color3.fromRGB(150, 50, 200)
-    sterlingButton.Text = isVietnamese and "Dịch Chuyển Đến Sterling Town" or "Teleport to Sterling Town"
-    sterlingButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    sterlingButton.TextScaled = true
-    sterlingButton.ZIndex = 1000001
-    sterlingButton.Parent = tab1Content
-    local sterlingButtonCorner = Instance.new("UICorner")
-    sterlingButtonCorner.CornerRadius = UDim.new(0, 8)
-    sterlingButtonCorner.Parent = sterlingButton
-
-    local endButton = Instance.new("TextButton")
-    endButton.Size = UDim2.new(0, 180, 0, 50)
-    endButton.Position = UDim2.new(0.5, -90, 0, 10)
-    endButton.BackgroundColor3 = Color3.fromRGB(0, 120, 215)
-    endButton.Text = isVietnamese and "Dịch Chuyển Đến End" or "Teleport to End"
-    endButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    endButton.TextScaled = true
-    endButton.ZIndex = 1000001
-    endButton.Parent = tab2Content
-    local endButtonCorner = Instance.new("UICorner")
-    endButtonCorner.CornerRadius = UDim.new(0, 8)
-    endButtonCorner.Parent = endButton
-
-    local farmButton = Instance.new("TextButton")
-    farmButton.Size = UDim2.new(0, 180, 0, 50)
-    farmButton.Position = UDim2.new(0.5, -90, 0, 70)
-    farmButton.BackgroundColor3 = Color3.fromRGB(50, 200, 50)
-    farmButton.Text = isVietnamese and "Dịch Chuyển Đến Farm" or "Teleport to Farm"
-    farmButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    farmButton.TextScaled = true
-    farmButton.ZIndex = 1000001
-    farmButton.Parent = tab2Content
-    local farmButtonCorner = Instance.new("UICorner")
-    farmButtonCorner.CornerRadius = UDim.new(0, 8)
-    farmButtonCorner.Parent = farmButton
-
-    local bankButton = Instance.new("TextButton")
-    bankButton.Size = UDim2.new(0, 180, 0, 50)
-    bankButton.Position = UDim2.new(0.5, -90, 0, 130)
-    bankButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
-    bankButton.Text = isVietnamese and "Dịch Chuyển Đến Bank" or "Teleport to Bank"
-    bankButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    bankButton.TextScaled = true
-    bankButton.ZIndex = 1000001
-    bankButton.Parent = tab2Content
-    local bankButtonCorner = Instance.new("UICorner")
-    bankButtonCorner.CornerRadius = UDim.new(0, 8)
-    bankButtonCorner.Parent = bankButton
-
-    local npcLockButton = Instance.new("TextButton")
-    npcLockButton.Size = UDim2.new(0, 180, 0, 50)
-    npcLockButton.BackgroundColor3 = Color3.fromRGB(0, 120, 215)
-    npcLockButton.Text = isVietnamese and "Khóa NPC: TẮT" or "NPC Lock: OFF"
-    npcLockButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    npcLockButton.TextScaled = true
-    npcLockButton.ZIndex = 1000001
-    npcLockButton.Parent = tab3Content
-    local npcLockButtonCorner = Instance.new("UICorner")
-    npcLockButtonCorner.CornerRadius = UDim.new(0, 8)
-    npcLockButtonCorner.Parent = npcLockButton
-
-    local aimbotButton = Instance.new("TextButton")
-    aimbotButton.Size = UDim2.new(0, 180, 0, 50)
-    aimbotButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
-    aimbotButton.Text = isVietnamese and "Bật Ngắm Tự Động" or "Bật Aimbot"
-    aimbotButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    aimbotButton.TextScaled = true
-    aimbotButton.ZIndex = 1000001
-    aimbotButton.Parent = tab3Content
-    local aimbotButtonCorner = Instance.new("UICorner")
-    aimbotButtonCorner.CornerRadius = UDim.new(0, 8)
-    aimbotButtonCorner.Parent = aimbotButton
-
-    local noclipButton = Instance.new("TextButton")
-    noclipButton.Size = UDim2.new(0, 180, 0, 50)
-    noclipButton.BackgroundColor3 = Color3.fromRGB(50, 200, 50)
-    noclipButton.Text = isVietnamese and "Bật Xuyên Tường" or "Bật Noclip"
-    noclipButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    noclipButton.TextScaled = true
-    noclipButton.ZIndex = 1000001
-    noclipButton.Parent = tab3Content
-    local noclipButtonCorner = Instance.new("UICorner")
-    noclipButtonCorner.CornerRadius = UDim.new(0, 8)
-    noclipButtonCorner.Parent = noclipButton
-
-    local thirdPersonButton = Instance.new("TextButton")
-    thirdPersonButton.Size = UDim2.new(0, 180, 0, 50)
-    thirdPersonButton.BackgroundColor3 = Color3.fromRGB(200, 200, 50)
-    thirdPersonButton.Text = isVietnamese and "Bật Góc Nhìn Thứ Ba" or "Bật Third Person"
-    thirdPersonButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    thirdPersonButton.TextScaled = true
-    thirdPersonButton.ZIndex = 1000001
-    thirdPersonButton.Parent = tab3Content
-    local thirdPersonButtonCorner = Instance.new("UICorner")
-    thirdPersonButtonCorner.CornerRadius = UDim.new(0, 8)
-    thirdPersonButtonCorner.Parent = thirdPersonButton
-
-    local espMobsButton = Instance.new("TextButton")
-    espMobsButton.Size = UDim2.new(0, 180, 0, 50)
-    espMobsButton.BackgroundColor3 = Color3.fromRGB(255, 165, 0)
-    espMobsButton.Text = isVietnamese and "Bật ESP Quái" or "Bật ESP Mobs"
-    espMobsButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    espMobsButton.TextScaled = true
-    espMobsButton.ZIndex = 1000001
-    espMobsButton.Parent = tab3Content
-    local espMobsButtonCorner = Instance.new("UICorner")
-    espMobsButtonCorner.CornerRadius = UDim.new(0, 8)
-    espMobsButtonCorner.Parent = espMobsButton
-
-    local espItemsButton = Instance.new("TextButton")
-    espItemsButton.Size = UDim2.new(0, 180, 0, 50)
-    espItemsButton.BackgroundColor3 = Color3.fromRGB(128, 0, 128)
-    espItemsButton.Text = isVietnamese and "Bật ESP Vật Phẩm" or "Bật ESP Items"
-    espItemsButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    espItemsButton.TextScaled = true
-    espItemsButton.ZIndex = 1000001
-    espItemsButton.Parent = tab3Content
-    local espItemsButtonCorner = Instance.new("UICorner")
-    espItemsButtonCorner.CornerRadius = UDim.new(0, 8)
-    espItemsButtonCorner.Parent = espItemsButton
-
-    local horseClassButton = Instance.new("TextButton")
-    horseClassButton.Size = UDim2.new(0, 180, 0, 50)
-    horseClassButton.Position = UDim2.new(0.5, -90, 0, 10)
-    horseClassButton.BackgroundColor3 = Color3.fromRGB(150, 50, 200)
-    horseClassButton.Text = isVietnamese and "Mở Khóa Lớp Ngựa" or "Unlock Horse Class"
-    horseClassButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    horseClassButton.TextScaled = true
-    horseClassButton.ZIndex = 1000001
-    horseClassButton.Parent = tab4Content
-    local horseClassButtonCorner = Instance.new("UICorner")
-    horseClassButtonCorner.CornerRadius = UDim.new(0, 8)
-    horseClassButtonCorner.Parent = horseClassButton
-
-    local statusLabel = Instance.new("TextLabel")
-    statusLabel.Size = UDim2.new(0, 180, 0, 50)
-    statusLabel.Position = UDim2.new(0.5, -90, 0, 360)
-    statusLabel.BackgroundTransparency = 1
-    statusLabel.Text = isVietnamese and "Nhấn nút để thực hiện hành động!" or "Click a button to perform an action!"
-    statusLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-    statusLabel.TextScaled = true
-    statusLabel.TextWrapped = true
-    statusLabel.ZIndex = 1000001
-    statusLabel.Parent = frame
-
-    local closeButton = Instance.new("TextButton")
-    closeButton.Size = UDim2.new(0, 30, 0, 30)
-    closeButton.Position = UDim2.new(1, -40, 0, 10)
-    closeButton.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
-    closeButton.Text = "X"
-    closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    closeButton.TextScaled = true
-    closeButton.ZIndex = 1000001
-    closeButton.Parent = frame
-    local closeCorner = Instance.new("UICorner")
-    closeCorner.CornerRadius = UDim.new(0, 8)
-    closeCorner.Parent = closeButton
-
-    local logoButton = Instance.new("TextButton")
-    logoButton.Size = UDim2.new(0, 50, 0, 50)
-    logoButton.Position = UDim2.new(0, 10, 0, 10)
-    logoButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-    logoButton.Text = "N"
-    logoButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-    logoButton.TextScaled = false
-    logoButton.TextSize = 24
-    logoButton.ZIndex = 1000000
-    logoButton.Parent = screenGui
-    local logoCorner = Instance.new("UICorner")
-    logoCorner.CornerRadius = UDim.new(0, 8)
-    logoCorner.Parent = logoButton
-
-    -- Thêm sự kiện nhấn phím G để hiển thị/ẩn menu
-    UserInputService.InputBegan:Connect(function(input, gameProcessedEvent)
-        if not gameProcessedEvent and input.KeyCode == Enum.KeyCode.G and not UserInputService:GetFocusedTextBox() then
-            frame.Visible = not frame.Visible
-        end
-    end)
-
-    tab1Button.MouseButton1Click:Connect(function()
-        tab1Content.Visible = true
-        tab2Content.Visible = false
-        tab3Content.Visible = false
-        tab4Content.Visible = false
-        tab1Button.BorderSizePixel = 2
-        tab2Button.BorderSizePixel = 0
-        tab3Button.BorderSizePixel = 0
-        tab4Button.BorderSizePixel = 0
-    end)
-
-    tab2Button.MouseButton1Click:Connect(function()
-        tab1Content.Visible = false
-        tab2Content.Visible = true
-        tab3Content.Visible = false
-        tab4Content.Visible = false
-        tab1Button.BorderSizePixel = 0
-        tab2Button.BorderSizePixel = 2
-        tab3Button.BorderSizePixel = 0
-        tab4Button.BorderSizePixel = 0
-    end)
-
-    tab3Button.MouseButton1Click:Connect(function()
-        tab1Content.Visible = false
-        tab2Content.Visible = false
-        tab3Content.Visible = true
-        tab4Content.Visible = false
-        tab1Button.BorderSizePixel = 0
-        tab2Button.BorderSizePixel = 0
-        tab3Button.BorderSizePixel = 2
-        tab4Button.BorderSizePixel = 0
-    end)
-
-    tab4Button.MouseButton1Click:Connect(function()
-        tab1Content.Visible = false
-        tab2Content.Visible = false
-        tab3Content.Visible = false
-        tab4Content.Visible = true
-        tab1Button.BorderSizePixel = 0
-        tab2Button.BorderSizePixel = 0
-        tab3Button.BorderSizePixel = 0
-        tab4Button.BorderSizePixel = 2
-    end)
-
-    sitButton.MouseButton1Click:Connect(function()
-        local success, messageVN, messageEN = sitInConductorSeat(isVietnamese)
-        statusLabel.Text = isVietnamese and messageVN or messageEN
-        statusLabel.TextColor3 = success and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
-    end)
-
-    castleButton.MouseButton1Click:Connect(function()
-        local success, messageVN, messageEN = teleportToCastle()
-        statusLabel.Text = isVietnamese and messageVN or messageEN
-        statusLabel.TextColor3 = success and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
-    end)
-
-    teslaButton.MouseButton1Click:Connect(function()
-        local success, messageVN, messageEN = teleportToTeslaLab()
-        statusLabel.Text = isVietnamese and messageVN or messageEN
-        statusLabel.TextColor3 = success and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
-    end)
-
-    fortButton.MouseButton1Click:Connect(function()
-        local success, messageVN, messageEN = teleportToFort()
-        statusLabel.Text = isVietnamese and messageVN or messageEN
-        statusLabel.TextColor3 = success and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
-    end)
-
-    sterlingButton.MouseButton1Click:Connect(function()
-        local success, messageVN, messageEN = teleportToSterlingTown()
-        statusLabel.Text = isVietnamese and messageVN or messageEN
-        statusLabel.TextColor3 = success and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
-    end)
-
-    endButton.MouseButton1Click:Connect(function()
-        local success, messageVN, messageEN = teleportToEnd()
-        statusLabel.Text = isVietnamese and messageVN or messageEN
-        statusLabel.TextColor3 = success and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
-    end)
-
-    farmButton.MouseButton1Click:Connect(function()
-        local success, messageVN, messageEN = teleportToFarm()
-        statusLabel.Text = isVietnamese and messageVN or messageEN
-        statusLabel.TextColor3 = success and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
-    end)
-
-    bankButton.MouseButton1Click:Connect(function()
-        local success, messageVN, messageEN = teleportToBank()
-        statusLabel.Text = isVietnamese and messageVN or messageEN
-        statusLabel.TextColor3 = success and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
-    end)
-
-    npcLockButton.MouseButton1Click:Connect(function()
-        toggleNPCLock(npcLockButton, statusLabel, isVietnamese)
-    end)
-
-    aimbotButton.MouseButton1Click:Connect(function()
-        toggleAimbot(aimbotButton, statusLabel, isVietnamese)
-    end)
-
-    noclipButton.MouseButton1Click:Connect(function()
-        toggleNoclip(noclipButton, statusLabel, isVietnamese)
-    end)
-
-    thirdPersonButton.MouseButton1Click:Connect(function()
-        toggleThirdPerson(thirdPersonButton, statusLabel, isVietnamese)
-    end)
-
-    espMobsButton.MouseButton1Click:Connect(function()
-        toggleESPMobs(espMobsButton, statusLabel, isVietnamese)
-    end)
-
-    espItemsButton.MouseButton1Click:Connect(function()
-        toggleESPItems(espItemsButton, statusLabel, isVietnamese)
-    end)
-
-    horseClassButton.MouseButton1Click:Connect(function()
-        local success, messageVN, messageEN = unlockHorseClass()
-        statusLabel.Text = isVietnamese and messageVN or messageEN
-        statusLabel.TextColor3 = success and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(255, 0, 0)
-    end)
-
-    espConnection = RunService.RenderStepped:Connect(updateESP)
-
-    closeButton.MouseButton1Click:Connect(function()
-        if toggleLoop then
-            toggleLoop:Disconnect()
-            toggleLoop = nil
-        end
-        if aimbotConnection then
-            aimbotConnection:Disconnect()
-            aimbotConnection = nil
-        end
-        if noclipConnection then
-            noclipConnection:Disconnect()
-            noclipConnection = nil
-        end
-        if antiAvoidConnection then
-            antiAvoidConnection:Disconnect()
-            antiAvoidConnection = nil
-        end
-        if espConnection then
-            espConnection:Disconnect()
-            espConnection = nil
-        end
-        isAiming = false
-        isNoClip = false
-        isThirdPerson = false
-        isESPEnabledMobs = false
-        isESPEnabledItems = false
-        FOVring.Visible = false
-        ClearESP()
-        removePlayerHighlight()
-        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
-            Camera.CameraSubject = LocalPlayer.Character.Humanoid
-            for _, part in ipairs(LocalPlayer.Character:GetDescendants()) do
-                if part:IsA("BasePart") then
-                    part.CanCollide = originalCollideStates[part] or true
-                end
-            end
-            local hrp = LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-            local humanoid = LocalPlayer.Character:FindFirstChild("Humanoid")
-            if hrp then
-                hrp.Velocity = Vector3.new(0, 0, 0)
-            end
-            if humanoid then
-                humanoid.PlatformStand = false
-                humanoid.Jump = false
-                humanoid:ChangeState(Enum.HumanoidStateType.Running)
-            end
-        end
-        LocalPlayer.CameraMaxZoomDistance = originalCameraMaxZoomDistance
-        Camera.CameraType = originalCameraType
-        screenGui:Destroy()
-        FOVring:Remove()
-    end)
-
-    logoButton.MouseButton1Click:Connect(function()
-        frame.Visible = not frame.Visible
-    end)
-
-    local isDraggingFrame = false
-    local frameDragStart = nil
-    local frameStartPos = nil
-    local dragFactor = 1.5
-
-    frame.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            isDraggingFrame = true
-            frameDragStart = input.Position
-            frameStartPos = frame.Position
-            TweenService:Create(frame, TweenInfo.new(0), {Position = frame.Position}):Play()
-        end
-    end)
-
-    frame.InputChanged:Connect(function(input)
-        if isDraggingFrame and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
-            local delta = (input.Position - frameDragStart) * dragFactor
-            if math.abs(delta.X) < 1 and math.abs(delta.Y) < 1 then
-                return
-            end
-            local newPos = UDim2.new(
-                frameStartPos.X.Scale,
-                frameStartPos.X.Offset + delta.X,
-                frameStartPos.Y.Scale,
-                frameStartPos.Y.Offset + delta.Y
-            )
-            TweenService:Create(frame, TweenInfo.new(0.03), {Position = newPos}):Play()
-        end
-    end)
-
-    UserInputService.InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            isDraggingFrame = false
-        end
-    end)
-
-    local isDraggingLogo = false
-    local logoDragStart = nil
-    local logoStartPos = nil
-
-    logoButton.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            isDraggingLogo = true
-            logoDragStart = input.Position
-            logoStartPos = logoButton.Position
-            TweenService:Create(logoButton, TweenInfo.new(0), {Position = logoButton.Position}):Play()
-        end
-    end)
-
-    logoButton.InputChanged:Connect(function(input)
-        if isDraggingLogo and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
-            local delta = (input.Position - logoDragStart) * dragFactor
-            if math.abs(delta.X) < 1 and math.abs(delta.Y) < 1 then
-                return
-            end
-            local newPos = UDim2.new(
-                logoStartPos.X.Scale,
-                logoStartPos.X.Offset + delta.X,
-                logoStartPos.Y.Scale,
-                logoStartPos.Y.Offset + delta.Y
-            )
-            TweenService:Create(logoButton, TweenInfo.new(0.03), {Position = newPos}):Play()
-        end
-    end)
-
-    UserInputService.InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            isDraggingLogo = false
-        end
-    end)
-end
-
-createUI()
+villageTabButton.MouseButton1Click\:Connect(function()
+projectTab.Visible = false
+villageTab.Visible = true
+end)
