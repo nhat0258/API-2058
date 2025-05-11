@@ -1,6 +1,4 @@
 -- Made By NhatNguyenQuang
-print("MR.N -- Devemenlopver")
-
 local player = game.Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 local RunService = game:GetService("RunService")
