@@ -1,0 +1,56 @@
+local placeId = game.PlaceId
+local universeId = tostring(game.GameId)
+
+local placeScripts = {
+    [12688469563] = "https://raw.githubusercontent.com/nhat0258/Testing/main/Grow-A-Graden-Tool",
+    [14202073004] = "https://raw.githubusercontent.com/nhat0258/API-2058/refs/heads/main/Unnamed-Shooter-Game-V5.lua"
+}
+
+local universeScripts = {
+    ["7436755782"] = "https://raw.githubusercontent.com/nhat0258/Testing/main/Grow-A-Graden-Tool",
+    ["4914269443"] = "https://raw.githubusercontent.com/nhat0258/API-2058/refs/heads/main/Unnamed-Shooter-Game-V5.lua"
+}
+
+local url
+
+if placeScripts[placeId] then
+    if placeId == 12688469563 then
+        print("Nexus Hub V5 -- Grow A Graden")
+    elseif placeId == 14202073004 then
+        print("Nexus Hub V5 -- Unnamed Shooter")
+    end
+    url = placeScripts[placeId]
+elseif universeScripts[universeId] then
+    url = universeScripts[universeId]
+end
+
+if url then
+    local success, response = pcall(function()
+        return game:HttpGet(url)
+    end)
+
+    if success and response then
+        local loadSuccess, loadErr = pcall(function()
+            loadstring(response)()
+        end)
+        if not loadSuccess then
+            game:GetService("StarterGui"):SetCore("SendNotification", {
+                Title = "N-Hub",
+                Text = "Error running script : "..tostring(loadErr),
+                Duration = 8
+            })
+        end
+    else
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "N-Hub",
+            Text = "Cannot Load Script From Url !",
+            Duration = 6
+        })
+    end
+else
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "N-Hub",
+        Text = "Nexus-Hub Not Support This Game!",
+        Duration = 6
+    })
+end
