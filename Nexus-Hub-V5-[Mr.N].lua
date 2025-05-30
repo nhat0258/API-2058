@@ -1,11 +1,9 @@
---// SERVICES
 local TweenService = game:GetService("TweenService")
 local Lighting = game:GetService("Lighting")
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 
---// BLUR EFFECT
 local blur = Instance.new("BlurEffect")
 blur.Size = 0
 blur.Parent = Lighting
@@ -13,7 +11,6 @@ blur.Parent = Lighting
 local blurTweenIn = TweenService:Create(blur, TweenInfo.new(0.5, Enum.EasingStyle.Sine), { Size = 24 })
 local blurTweenOut = TweenService:Create(blur, TweenInfo.new(0.5, Enum.EasingStyle.Sine), { Size = 0 })
 
---// GUI SETUP INTRO
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "IntroUI"
 ScreenGui.ResetOnSpawn = false
@@ -23,25 +20,21 @@ local TextLabel = Instance.new("TextLabel")
 TextLabel.Parent = ScreenGui
 TextLabel.Size = UDim2.new(1, 0, 1, 0)
 TextLabel.BackgroundTransparency = 1
-TextLabel.Text = "Nexus Hub V6.1.57 - Tèo Skibidi"
+TextLabel.Text = "Nexus Hub V5 [ Mr.N ]"
 TextLabel.TextColor3 = Color3.new(1, 1, 1)
 TextLabel.TextScaled = true
 TextLabel.Font = Enum.Font.GothamBold
 TextLabel.TextTransparency = 1
 
--- Tween chữ vào
 local textTweenIn = TweenService:Create(TextLabel, TweenInfo.new(0.5, Enum.EasingStyle.Sine), { TextTransparency = 0 })
--- Tween chữ ra
 local textTweenOut = TweenService:Create(TextLabel, TweenInfo.new(0.5, Enum.EasingStyle.Sine), { TextTransparency = 1 })
 
---// PLAY INTRO
 blurTweenIn:Play()
 textTweenIn:Play()
 wait(2)
 textTweenOut:Play()
 blurTweenOut:Play()
 
--- Cleanup
 task.delay(3, function()
 	ScreenGui:Destroy()
 	blur:Destroy()
@@ -49,6 +42,11 @@ end)
 
 local placeId = game.PlaceId
 local universeId = tostring(game.GameId)
+
+local placeScripts = {
+    [12688469563] = "https://raw.githubusercontent.com/nhat0258/Testing/main/Grow-A-Graden-Tool",
+    [14202073004] = "https://raw.githubusercontent.com/nhat0258/API-2058/refs/heads/main/Unnamed-Shooter-Game-V5.lua"
+}
 
 local universeScripts = {
     ["7436755782"] = "https://raw.githubusercontent.com/nhat0258/Testing/main/Grow-A-Graden-Tool",
@@ -59,7 +57,7 @@ local url
 
 if placeScripts[placeId] then
     if placeId == 12688469563 then
-        print("Nexus Hub V5 -- Grow A Graden")
+        print("Nexus Hub V5 -- Universal")
     elseif placeId == 14202073004 then
         print("Nexus Hub V5 -- Unnamed Shooter")
     end
@@ -79,7 +77,7 @@ if url then
         end)
         if not loadSuccess then
             game:GetService("StarterGui"):SetCore("SendNotification", {
-                Title = "N-Hub",
+                Title = "Mr.N",
                 Text = "Error running script : "..tostring(loadErr),
                 Duration = 8
             })
@@ -93,7 +91,7 @@ if url then
     end
 else
     game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = "N-Hub",
+        Title = "Mr.N",
         Text = "Nexus-Hub Not Support This Game!",
         Duration = 6
     })
